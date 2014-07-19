@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ShMeMo</fullName>
+    <types>
+        <members>RemoteTKController</members>
+        <members>TestRemoteTKController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>RemoteTK</members>
+        <name>ApexComponent</name>
+    </types>
+    <types>
+        <members>myapp_friend_detail_html</members>
+        <members>myapp_index_html</members>
+        <members>myapp_tab_account_html</members>
+        <members>myapp_tab_dash_html</members>
+        <members>myapp_tab_friends_html</members>
+        <members>myapp_tabs_html</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>ShMeMo</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>ioniclib</members>
+        <members>myapp_app_js</members>
+        <members>myapp_controllers_js</members>
+        <members>myapp_services_js</members>
+        <name>StaticResource</name>
+    </types>
+    <version>30.0</version>
+</Package>
