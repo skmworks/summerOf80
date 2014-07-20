@@ -26,8 +26,10 @@
     <types>
         <members>ioniclib</members>
         <members>myapp_app_js</members>
+        <members>myapp_category_js</members>
         <members>myapp_controllers_js</members>
         <members>myapp_services_js</members>
+        <members>myapp_twitter_js</members>
         <name>StaticResource</name>
     </types>
     <version>30.0</version>

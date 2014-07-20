@@ -1,42 +1,289 @@
-<apex:page showHeader="false" sidebar="false" standardStylesheets="false"  applyBodyTag="false" applyHtmlTag="false">
-<html>
-  <head>
-    <meta charset="utf-8"></meta>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"></meta>
-    <title></title>
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false">
+	<html>
+	<head>
+	<meta charset="utf-8"></meta>
+	<meta name="viewport"
+		content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"></meta>
+	<title></title>
+	<link href="{!URLFOR($Resource.ioniclib, 'css/ionic.css')}"
+		rel="stylesheet" />
+	<link href="{!URLFOR($Resource.ioniclib, 'css/style.css')}"
+		rel="stylesheet" />
 
-    <link href="{!URLFOR($Resource.ioniclib, 'css/ionic.css')}" rel="stylesheet"/>
-    <link href="{!URLFOR($Resource.ioniclib, 'css/style.css')}" rel="stylesheet"/>
-    
-    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"/>
-    <c:RemoteTK ></c:RemoteTK>
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+	<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" />
+	<c:RemoteTK ></c:RemoteTK>
+	<!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
-    <!-- ionic/angularjs js -->
-    <script src="{!URLFOR($Resource.ioniclib, 'js/ionic.bundle.js')}"></script>
+	<style type="text/css">
+/* 
+* Example style!
+* You can do whatever the hell you want on your site :-)
+*/
+h2 {
+	clear: both;
+}
 
-    <!-- your app's js -->
-    <script src="{!$Resource.myapp_app_js}"></script>
-    <script src="{!$Resource.myapp_controllers_js}"></script>
-    <script src="{!$Resource.myapp_services_js}"></script>
-  </head>
-  <body ng-app="starter" animation="slide-left-right-ios7">
-    <!-- 
+p,a {
+	font-size: 9pt;
+	margin: 10px 0 0 0;
+	color: #3d3d3d;
+}
+
+a,a:visited {
+	color: #427fed;
+}
+
+a:hover {
+	color: #82afff;
+}
+
+ul li {
+	list-style: none;
+	overflow: hidden;
+	border: 1px solid #dedede;
+	margin: 5px;
+	padding: 5px;
+}
+
+ul li:hover {
+	background-color: #f0f3fb;
+}
+
+.user,.tweet,.timePosted {
+	float: left;
+}
+
+.user {
+	width: 25%;
+}
+
+.tweet {
+	width: 50%;
+}
+
+.timePosted {
+	width: 15%;
+}
+
+.user {
+	clear: left;
+}
+
+.user a {
+	width: 100px;
+}
+
+.user span span {
+	width: 100px;
+	display: block;
+	margin-top: 10px;
+}
+
+.user img,.user a>span {
+	float: left;
+}
+
+.interact {
+	float: left;
+	width: 10%;
+	margin-top: -7px;
+}
+
+.interact a {
+	margin-left: 5px;
+	float: left;
+}
+
+.user a>span {
+	margin-left: 10px;
+}
+
+#linkage {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	background-color: #3d3d3d;
+	color: #ffffff;
+	text-decoration: none;
+	padding: 5px;
+	width: 10%;
+	font-family: arial;
+}
+</style>
+	<!-- ionic/angularjs js -->
+	<script src="{!URLFOR($Resource.ioniclib, 'js/ionic.bundle.js')}"></script>
+
+	<!-- your app's js -->
+	<script src="{!$Resource.myapp_category_js}"></script>
+	<script src="{!$Resource.myapp_app_js}"></script>
+	<script src="{!$Resource.myapp_controllers_js}"></script>
+	<script src="{!$Resource.myapp_services_js}"></script>
+	<script src="{!$Resource.myapp_twitter_js}"></script>
+	</head>
+
+	<div id="loaderImage"
+		style="display: none; background: #000; height: 100%; width: 100%; margin-top: 50%; margin-left: 40%; z-index: 9999"></div>
+	<div id="overlay"
+		style="height: 100%; width: 100%; background-color: #000; display: none"></div>
+	<body ng-app="starter" animation="slide-left-right-ios7">
+	<!-- 
       The nav bar that will be updated as we navigate between views.
     -->
+	<!--
     <ion-nav-bar class="bar-stable nav-title-slide-ios7">
       <ion-nav-back-button class="button-icon icon  ion-ios7-arrow-back">
         Back
       </ion-nav-back-button>
     </ion-nav-bar>
-    <!-- 
+-->
+
+
+	<ion-header.bar class="bar bar-header bar-positive">
+	<h1 class="title"><b>ShMeMo</b></h1>
+	<button class="button" onclick="refresh();"><i
+		class="icon ion-refresh"></i></button>
+	</ion-header.bar>
+
+	<!-- 
       The views will be rendered in the <ion-nav-view> directive below
       Templates are in the /templates folder (but you could also
       have templates inline in this html file if you'd like).
     -->
-    <ion-nav-view></ion-nav-view>
-  </body>
-</html>
+	<!--    <ion-nav-view></ion-nav-view>-->
+	<ion-content class="has-header padding">
+	<div class="list"><label class="item item-input item-select">
+	<div class="input-label">Subject</div>
+	<select id="category">
+		<option>Entertainment</option>
+		<option selected="selected">Politics</option>
+		<option>Technology</option>
+	</select> </label></div>
+	<div class="list"><label class="item item-input item-select">
+	<div class="input-label">Category</div>
+	<select id="sub-cat">
+		<option>Movies</option>
+		<option selected="selected">Drama</option>
+		<option>Stage Shows</option>
+		<option>Theatre</option>
+	</select> </label></div>
+	<div id="main_div" style="display: none">
+	<h4>Sentimental analysis for #AmarAnthonyAkbar</h4>
+	<div class="row">
+	<div class="col"><img class="full-image"
+		src="{!URLFOR($Resource.ioniclib, 'img/amar.png')}" /></div>
+	<div class="col"><img class="full-image"
+		src="{!URLFOR($Resource.ioniclib, 'img/akbar.png')}" /></div>
+	<div class="col"><img class="full-image"
+		src="{!URLFOR($Resource.ioniclib, 'img/anthony.png')}" /></div>
+	</div>
+	<div class="row">
+	<div class="col"><span
+		style="margin-left: 40%; margin-bottom: 5%" class="badge badge-stable"
+		id="amrdot">&#160;</span> <br />
+	<label class="item item-input"> <input type="text"
+		name="amar_n" id="amar_id" /> </label></div>
+
+	<div class="col"><span
+		style="margin-left: 40%; margin-bottom: 5%" class="badge badge-stable"
+		id="akbrdot">&#160;</span> <br />
+	<label class="item item-input"> <input type="text"
+		name="akbar_n" id="akbar_id" /> </label></div>
+	<div class="col"><span
+		style="margin-left: 40%; margin-bottom: 5%" class="badge badge-stable"
+		id="anthdot">&#160;</span><br />
+	<label class="item item-input"> <input type="text"
+		name="anthony_n" id="anthony_id" /> </label></div>
+	</div>
+
+
+	<div class="row">
+	<div class="col"><label class="item item-input"> <span
+		class="input-label">Relevancy:</span> <input type="text"
+		name="final_weightage" id="final_weightage" /> </label></div>
+	</div>
+
+
+
+	<div class="row">
+	<div class="col">
+
+	<div class="button-bar"><a
+		class="button button-block button-assertive"
+		onclick="resetform(); return false;">Shaky</a>&#160; <a
+		class="button button-block button-balanced">Lucky</a></div>
+	</div>
+
+
+	</div>
+	</div>
+</ion-content>
+	</body>
+	</html>
+
+	<script type="text/javascript">
+	var cSpeed=9;
+	var cWidth=128;
+	var cHeight=128;
+	var cTotalFrames=23;
+	var cFrameWidth=128;
+	var cImageSrc="{!URLFOR($Resource.ioniclib, 'img/sprites.gif')}";
+	
+	var cImageTimeout=false;
+	var cIndex=0;
+	var cXpos=0;
+	var cPreloaderTimeout=false;
+	var SECONDS_BETWEEN_FRAMES=0;
+	
+	function startAnimation(){
+		
+		document.getElementById('loaderImage').style.backgroundImage='url('+cImageSrc+')';
+		document.getElementById('loaderImage').style.width=cWidth+'px';
+		document.getElementById('loaderImage').style.height=cHeight+'px';
+		
+		//FPS = Math.round(100/(maxSpeed+2-speed));
+		FPS = Math.round(100/cSpeed);
+		SECONDS_BETWEEN_FRAMES = 1 / FPS;
+		
+		cPreloaderTimeout=setTimeout('continueAnimation()', SECONDS_BETWEEN_FRAMES/1000);
+		
+	}
+	
+	function continueAnimation(){
+		
+		cXpos += cFrameWidth;
+		//increase the index so we know which frame of our animation we are currently on
+		cIndex += 1;
+		 
+		//if our cIndex is higher than our total number of frames, we're at the end and should restart
+		if (cIndex >= cTotalFrames) {
+			cXpos =0;
+			cIndex=0;
+		}
+		
+		if(document.getElementById('loaderImage'))
+			document.getElementById('loaderImage').style.backgroundPosition=(-cXpos)+'px 0';
+		
+		cPreloaderTimeout=setTimeout('continueAnimation()', SECONDS_BETWEEN_FRAMES*1000);
+	}
+	
+	function stopAnimation(){//stops animation
+		clearTimeout(cPreloaderTimeout);
+		cPreloaderTimeout=false;
+	}
+	
+	function imageLoader(s, fun)//Pre-loads the sprites image
+	{
+		clearTimeout(cImageTimeout);
+		cImageTimeout=0;
+		genImage = new Image();
+		genImage.onload=function (){cImageTimeout=setTimeout(fun, 0)};
+		genImage.onerror=new Function('alert(\'Could not load the image\')');
+		genImage.src=s;
+	}
+	
+	//The following code starts the animation
+	new imageLoader(cImageSrc, 'startAnimation()');
+</script>
 </apex:page>
